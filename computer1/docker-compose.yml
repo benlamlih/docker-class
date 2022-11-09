@@ -1,0 +1,30 @@
+version: "3.2"
+services:
+  apache:
+    build:
+      context: './apache/'
+      args:
+       APACHE_VERSION: ${APACHE_VERSION}
+    networks:
+      - class
+    ports:
+      - "90:80"
+    volumes:
+      - ${PROJECT_ROOT}/:/var/www/html/
+    container_name: apache
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+     - '8081:80'
+    environment:
+      PMA_HOST: mysql
+    networks:
+      - class
+networks:
+  class:
+    external: 
+      name: custom_network
+volumes:
+    data:
